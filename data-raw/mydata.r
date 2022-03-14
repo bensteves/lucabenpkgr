@@ -15,3 +15,12 @@ alpha3codes <- read.csv("alphacodes.csv")
 
 world_climate_data <- read.csv("world_climate_data.csv")
 
+world_climate <- world_climate %>%
+  select(1:4, x1960:x2020) %>%
+  pivot_longer(cols = starts_with("x"), names_to = "year", values_to = "measure") %>%
+  filter(!is.na(measure)) %>%
+  mutate(year = sub('x', '', year),
+         year = lubridate::ymd(year, truncated = 2L),
+         measure = round(measure, 2))
+world_climate <- world_climate %>%
+  left_join(alpha3codes, by = c("country_code" = "alpha_3"))
