@@ -10,3 +10,8 @@ lego_wrangle <- lego %>%
   summarise(n=n())
 
 usethis::use_data(lego_wrangle)
+
+alpha3codes <- read.csv("alphacodes.csv")
+
+world_climate_data <- read.csv("world_climate_data.csv")
+
