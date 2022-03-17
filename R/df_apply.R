@@ -5,6 +5,6 @@ df_apply <- function(.data, .f, .condition = is.numeric, .else = identity, ...) 
         .f(x, ...) 
       else 
         .else(x)
-  ) %>%
-    as_tibble()
+  ) |>
+    tibble::as_tibble()
 }

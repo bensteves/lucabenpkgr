@@ -1,12 +1,19 @@
 Package: lucabenpkgr
-Title: What the Package Does (One Line, Title Case)
+Title: Luca and Ben's Package, Data 303 @ Calvin University
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+  c(person(given = "Ben",
+           family = "Steves",
+           role = c("aut", "cre"),
+           email = "bjs48@calvin.edu"),
+    person(given = "Luca",
+           family = "Seazzu",
+           email = "lis5@calvin.edu",
+           role = c("aut", "cre")))
+Description: Apply any function on each column of a data frame given some condition
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+Imports: 
+    tibble
