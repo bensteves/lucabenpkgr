@@ -31,3 +31,4 @@ world_climate <- world_climate |>
   dplyr::left_join(alpha3codes, by = c("country_code" = "alpha_3"))
 
 usethis::use_data(world_climate)
+usethis::use_data(alpha3codes)
