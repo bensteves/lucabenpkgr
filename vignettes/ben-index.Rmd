@@ -1,6 +1,6 @@
 ---
 title: "World Energy Consumption and Climate"
-author: "Ben Steves
+author: "Ben Steves"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ben-index}
@@ -21,7 +21,10 @@ library(lucabenpkgr)
 
 #other dependencies
 require(plotly)
-require(tidyverse)
+require(tidyr)
+require(dplyr)
+require(lubridate)
+require(forcats)
 require(grid)
 require(htmltools)
 require(gridExtra)
@@ -56,24 +59,6 @@ plot_ly(data=us_co2,
          legend = list(x = 0.8, y = 0.1))
 ```
 
-## Percent of People Affected by Natural Disasters
-
-```{r include = FALSE}
-nd_pcts <- world_climate %>%
-  filter(indicator_code == "EN.CLC.MDAT.ZS") %>%
-  group_by(region, sub_region) %>%
-  summarize(avg_perc = mean(measure)) %>%
-  arrange(desc(avg_perc))
-plot_ly(data=nd_pcts,
-  type = "bar",
-  x = ~fct_reorder(sub_region, region),
-  y = ~avg_perc, 
-  color = ~region) %>%
-  layout(title = "Percent of Population Affected by Natural Disasters, 1990-2009",
-         yaxis = list(title = "Percent Affected"),
-         xaxis = list(title = "Sub-region", tickfont = list(size=10)))
-  #hovertemplate = "Region %{label}<br>Percentage: %{value}<extra></extra>")
-```
 
 ## Choropleth Maps
 
@@ -124,7 +109,7 @@ show_maps <- function(df, id_code, map_title, years, color, b) {
 
 ```{r}
 years <- list("1997", "2007", "2017")
-years <- lubridate::ymd(years, truncated = 2L)
+years <- ymd(years, truncated = 2L)
 df1997 <- world_climate %>% filter(year == years[[1]])
 df2007 <- world_climate %>% filter(year == years[[2]])
 df2017 <- world_climate %>% filter(year == years[[3]])

@@ -4,7 +4,7 @@
 #' @param .f A function to apply on the data frame
 #' @param .condition Default value "is.numeric", but can be another data type
 #' @param .else Default value "identity" (skips over a column)
-#' @param ... 
+#' @param ... Any arguments from .f to pass
 #'
 #' @return A tibble
 #' @export
