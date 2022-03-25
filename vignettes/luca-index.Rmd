@@ -1,0 +1,87 @@
+---
+title: "Lego Star Wars"
+author: "Luca Seazzu"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{luca-index}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(lucabenpkgr)
+knitr::opts_chunk$set(echo = TRUE)
+require(tidyverse)
+require(plotly)
+```
+
+```{r load-data, include=FALSE}
+data(lego_wrangle)
+```
+
+```{r vis, include=FALSE}
+lego_highlight <- highlight_key(lego_wrangle, ~name.x)
+
+base <- plot_ly(lego_highlight, color = I("black")) %>%
+  group_by(name.x)
+
+time_series <- base %>%
+  group_by(name.x) %>%
+  add_lines(x = ~year, y = ~n)
+
+highlight(
+  time_series, 
+  on = "plotly_click", 
+  selectize = TRUE, 
+  dynamic = TRUE, 
+  persistent = TRUE
+)
+
+```
+
+## Lego Visualization
+
+```{r vis2, echo = FALSE}
+lego_plot <- base %>%
+  summarise(sum = sum(n)) %>%
+  add_markers(
+    x= ~sum, 
+    y = ~fct_reorder(name.x, sum),
+    hoverinfo = "x+y"
+  ) %>%
+  layout(
+    xaxis = list(title = "Sum of Lego Sets"),
+    yaxis = list(title = "Number of Lego Sets")
+  ) 
+
+subplot(lego_plot, time_series, widths = c(.2, .8), titleX = TRUE) %>%
+  layout(showlegend = FALSE) %>%
+  highlight(on = "plotly_selected", dynamic = TRUE, selectize = TRUE, persistent = TRUE)
+```
+
+## Lego Data Set
+
+```{r, include = FALSE}
+head(lego_wrangle)
+```
+
+From https://www.kaggle.com/rtatman/lego-database/version/1?select=themes.csv and was made merging themes.csv and sets.csv while filtering by themes containing 'Star Wars'
+
+## References
+
+https://plotly-r.com/index.html
+
+## Reflection
+
+The ideas and suggestions from Claus Wilke's helped shaped my visualization in that originally I was trying to create a visualization that would show all of the sets within Lego themes across the years. However, that quickly became cluttered and too hard to gain any meaningful information out of. Thus I went down the route of looking into only Star Wars themes and the code was built that it is easy to modify to look into any particular sets and compare.
+
+I wish I was able to create more comparison ability with filters to compare different sets other than just Star Wars without it becoming to cluttered of a set. I also want to fix the axis and other visual aesthetics.
+
+The most interesting part of this was the plotly highlight function trying to color lines on click and also being able to select set names within a theme in order to compare.
