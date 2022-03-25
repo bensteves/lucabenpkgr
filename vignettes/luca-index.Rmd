@@ -20,6 +20,7 @@ library(lucabenpkgr)
 knitr::opts_chunk$set(echo = TRUE)
 require(tidyverse)
 require(plotly)
+require(ggplot2)
 ```
 
 ```{r load-data, include=FALSE}
@@ -53,7 +54,7 @@ lego_plot <- base %>%
   summarise(sum = sum(n)) %>%
   add_markers(
     x= ~sum, 
-    y = ~fct_reorder(name.x, sum),
+    y = ~forcats::fct_reorder(name.x, sum),
     hoverinfo = "x+y"
   ) %>%
   layout(
