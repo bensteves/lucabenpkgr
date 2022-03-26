@@ -10,7 +10,7 @@ Authors@R:
            family = "Seazzu",
            email = "lis5@calvin.edu",
            role = "aut"))
-Description: Apply any function on each column of a data frame given some condition
+Description: Apply any function on each column of a data frame given some condition.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -21,6 +21,7 @@ Imports:
     lubridate,
     magrittr,
     plotly,
+    purrr,
     tibble,
     tidyr
 Suggests: 

@@ -1,0 +1,54 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# lucabenpkgr
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of lucabenpkgr is to apply a function on a dataset given some condition
+
+## Installation
+
+You can install the development version of lucabenpkgr from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("bensteves/lucabenpkgr")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(lucabenpkgr)
+n <- 7L
+ TestData <-
+     tibble::tibble( double = rnorm(n, 100, 10),
+      x = 123400 / 10^(1L:n),
+      date = sample(seq(as.Date('1999/01/01'), as.Date('2022/01/01'), by="day"), n),
+      integer = (1L:n) * (1L:n),    # ^2 would return a double!!
+      character = LETTERS[1L:n],
+      factor = factor(letters[1L:n]),
+      logical = rep(c(TRUE, FALSE), length.out = n) )
+      
+ df_apply(TestData, round, is.numeric, digits =4)
+ df_apply(TestData, mean, is.numeric)
+ df_apply(TestData, lubridate::year, lubridate::is.Date)
+ df_apply(TestData, toupper, is.character)
+```
+
+

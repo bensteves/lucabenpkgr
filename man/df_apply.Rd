@@ -23,3 +23,20 @@ A tibble
 \description{
 Apply a function on each column of a data frame given a condition
 }
+\examples{
+n <- 7L
+TestData <-
+    tibble::tibble( double = rnorm(n, 100, 10),
+     x = 123400 / 10^(1L:n),
+     date = sample(seq(as.Date('1999/01/01'), as.Date('2022/01/01'), by="day"), n),
+     integer = (1L:n) * (1L:n),    # ^2 would return a double!!
+     character = LETTERS[1L:n],
+     factor = factor(letters[1L:n]),
+     logical = rep(c(TRUE, FALSE), length.out = n) )
+     
+df_apply(TestData, round, is.numeric, digits =4)
+df_apply(TestData, mean, is.numeric)
+df_apply(TestData, lubridate::year, lubridate::is.Date)
+df_apply(TestData, toupper, is.character)
+
+}

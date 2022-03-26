@@ -10,6 +10,7 @@
 #' @export
 #'
 #' @examples
+#' n <- 7L
 #' TestData <-
 #'     tibble::tibble( double = rnorm(n, 100, 10),
 #'      x = 123400 / 10^(1L:n),
