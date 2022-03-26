@@ -1,28 +1,51 @@
 require(purrr)
+require(dplyr)
+require(magrittr)
+require(tibble)
+require(lubridate)
 
-#returns no rows
-factor_keep <- lego_wrangle %>%
-  keep(is.factor)
+#ROUND
+digits = 2
 
-#returns 2 rows
-numeric.keep <- lego_wrangle %>%
-  keep(is.numeric)
-
-test_that("df_apply - keep(factor)", {
-  expect_equal(df_apply(lego_wrangle, keep, is.factor), factor_keep)
+rounded_lego <-lego_wrangle |>
+  mutate(n = round(n, digits),
+         year = round(year, digits)) |>
+  as_tibble()
+  
+test_that("df_apply - round() - lego", {
+  expect_equal(df_apply(lego_wrangle, round, is.numeric, digits = digits), rounded_lego)
 })
 
-test_that("df_apply - keep(numeric)", {
-  expect_equal(df_apply(lego_wrangle, keep, is.factor), numeric_keep)
+rounded_climate <- world_climate |>
+  mutate(across(where(is.numeric), round, digits = digits)) |>
+  as_tibble()
+
+test_that("df_apply - round() - climate", {
+  expect_equal(df_apply(world_climate, round, is.numeric, digits = digits), rounded_climate)
 })
 
-df_apply <- function(.data, .f, .condition = is.numeric, .else = identity, ...) {
-  .data |> lapply(
-    function(x)
-      if (.condition(x))
-        .f(x, ...)
-    else
-      .else(x)
-  ) |>
-    tibble::as_tibble()
-}
+#To Upper
+upper_lego <- lego_wrangle |>
+  mutate(name.x = toupper(name.x)) |>
+  as_tibble()
+
+test_that("df_apply - toupper() - lego", {
+  expect_equal(df_apply(lego_wrangle, toupper, is.character), upper_lego)
+})
+
+upper_climate <- world_climate |>
+  mutate(across(where(is.character), toupper)) |>
+  as_tibble()
+
+test_that("df_apply - toupper() - climate", {
+  expect_equal(df_apply(world_climate, toupper, is.character), upper_climate)
+})
+
+#Change dates to just year
+today_climate <- world_climate |>
+  mutate(year = year(year)) |> 
+  as_tibble()
+
+test_that("df_apply - year() - climate", {
+  expect_equal(df_apply(world_climate, year, is.Date), today_climate)
+})
